@@ -11,7 +11,7 @@ export AWS_ACCESS_KEY_ID=$AAK
 export AWS_SECRET_ACCESS_KEY=$ASK
 
 echo "Logging in to Amazon ECR..."
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 247883804977.dkr.ecr.us-east-1.amazonaws.com
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/o4x2j9z3
 if [ $? -ne 0 ]; then
     echo "Failed to login into ECR"
 #    exit 3
@@ -28,14 +28,14 @@ fi
 echo "Tagging Docker container image..."
 #AWS_ECR_URI=247883804977.dkr.ecr.us-east-1.amazonaws.com/$DKR_IMAGE_NAME
 #docker tag $DKR_IMAGE_NAME:latest $AWS_ECR_URI:latest
-docker tag angular_docker_image:latest 247883804977.dkr.ecr.us-east-1.amazonaws.com/angular_docker_image:latest
+docker tag angular_docker_image:latest public.ecr.aws/o4x2j9z3/angular_docker_image:latest
 if [ $? -ne 0 ]; then
     echo "Docker container image tag failed"
     #exit 5
 fi
 
 echo "Pushing Docker container image to ECR repo..."
-docker push 247883804977.dkr.ecr.us-east-1.amazonaws.com/angular_docker_image:latest
+docker push public.ecr.aws/o4x2j9z3/angular_docker_image:latest
 #docker push $AWS_ECR_URI:latest
 if [ $? -ne 0 ]; then
     echo "Docker container image push to ECR failed"
